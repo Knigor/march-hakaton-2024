@@ -3,12 +3,22 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
-  'extends': [
-    'plugin:vue/vue3-essential',
-    'eslint:recommended',
-    '@vue/eslint-config-prettier/skip-formatting'
-  ],
+  env: {
+    node: true
+  },
+  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/prettier'],
   parserOptions: {
-    ecmaVersion: 'latest'
-  }
+    parser: 'babel-eslint'
+  },
+  rules: {
+    // Настройки правил ESLint...
+  },
+  overrides: [
+    {
+      files: ['*.css'],
+      rules: {
+        'css/**': 'off'
+      }
+    }
+  ]
 }
