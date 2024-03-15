@@ -5,6 +5,8 @@ import './index.css'
 import AuthPage from './views/AuthPage.vue'
 import RegistrationPage from './views/RegistrationPage.vue'
 import MainPage from './views/MainPage.vue'
+import TeacherAddMaterialsPage from './views/TeacherAddMaterialsPage.vue'
+import TeacherAddsubject from './views/TeacherAddSubject.vue'
 
 const router = createRouter({
   routes: [
@@ -20,7 +22,14 @@ const router = createRouter({
       path: '/MainPage',
       component: MainPage
     },
-    {}
+    {
+      path: '/addMaterial',
+      component: TeacherAddMaterialsPage
+    },
+    {
+      path: '/addSubject',
+      component: TeacherAddsubject
+    }
   ],
   history: createWebHistory()
 })
