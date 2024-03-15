@@ -1,7 +1,5 @@
 <template>
   <div class="h-full flex flex-col justify-center">
-    <Sidebar class="flex-none" />
-    
     <div class="flex flex-row justify-center">
       <div class="px-10 py-5">
         <p>Libraria</p>
@@ -42,9 +40,6 @@
 <script setup>
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-
-// Импортируем компонент Sidebar
-import Sidebar from '@/components/ui/sidebar/Sidebar.vue'
 </script>
 
 <style lang="scss" scoped></style>
