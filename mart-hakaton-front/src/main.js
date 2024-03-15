@@ -2,14 +2,25 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import './index.css'
-import HomeView from './views/MainPage.vue'
+import AuthPage from './views/AuthPage.vue'
+import RegistrationPage from './views/RegistrationPage.vue'
+import MainPage from './views/MainPage.vue'
 
 const router = createRouter({
   routes: [
     {
       path: '/',
-      component: HomeView
-    }
+      component: AuthPage
+    },
+    {
+      path: '/registration',
+      component: RegistrationPage
+    },
+    {
+      path: '/MainPage',
+      component: MainPage
+    },
+    {}
   ],
   history: createWebHistory()
 })
