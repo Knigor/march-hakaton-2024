@@ -1,11 +1,13 @@
 <template>
-  <div class="px-10 py-5">
-    <p>Libraria</p>
-    <p>Храните знания и учитесь!</p>
-    <Input class="mt-5" placeholder="ФИО" />
-    <Input class="mt-5" placeholder="Логин пользователя" />
-    <Input class="mt-5" placeholder="Пароль" />
-    <Input class="mt-5" placeholder="Дата рождения" />
+  <div class="h-full flex flex-col justify-center">
+    <div class="flex flex-row justify-center">
+      <div class="">
+        <p>Libraria</p>
+        <p>Храните знания и учитесь!</p>
+        <Input class="mt-5" placeholder="Логин пользователя" />
+        <Input class="mt-5" placeholder="Пароль" />
+      </div>
+    </div>
   </div>
 </template>
 
