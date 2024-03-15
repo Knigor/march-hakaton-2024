@@ -7,7 +7,6 @@ if (isset($_POST["register"])) {
     $login = $_POST["login"];
     $full_name = $_POST["full_name"];
     $password = $_POST["password"];
-    $confirmPassword = $_POST["confirm_password"];
     $date_birth = $_POST["date_birth"];
     $role_user = ($_POST["role"] == "student") ? "student" : "teacher"; // Определение роли пользователя
 
@@ -16,11 +15,6 @@ if (isset($_POST["register"])) {
         // Возвращаем ошибку, если не все поля заполнены
         header('Content-Type: application/json');
         echo json_encode(array('status' => 'error', 'message' => 'Заполните все поля и подтвердите согласие на обработку персональных данных.'));
-        exit();
-    } elseif ($password !== $confirmPassword) {
-        // Возвращаем ошибку, если пароли не совпадают
-        header('Content-Type: application/json');
-        echo json_encode(array('status' => 'error', 'message' => 'Пароли не совпадают.'));
         exit();
     } else {
         // Проверка уникальности логина
