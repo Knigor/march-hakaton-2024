@@ -1,20 +1,28 @@
 <template>
-  <div class="h-full flex flex-col justify-center">
-    <div class="flex flex-row justify-center">
-      <div class="">
-        <div>
-          <p>Libraria</p>
-          <p>Храните знания и учитесь!</p>
-        </div>
-        <div class="mt-20">
-          <p class="flex justify-center">Войти</p>
-          <Input class="mt-5" placeholder="Логин пользователя" />
-          <Input class="mt-5" placeholder="Пароль" />
-          <div class="flex flex-row">
-            <Button class="w-64">Войти</Button>
-            <Button class="w-32">Через VK ID</Button>
+  <div class="h-full flex flex-col justify-center gap-10">
+    <div class="flex flex-row justify-center gap-5">
+      <div class="px-10 py-25">
+        <div class="flex justify-center">
+          <div class="h-16 w-16 rounded-full bg-blue-500 flex items-center justify-end">
+            <p class="text-white text-extra-bold">Lib</p>
           </div>
+          <h1 class="self-center text-extra-bold">raria</h1>
         </div>
+        <div class="flex flex-col gap-12">
+          <p class="pt-5 flex justify-center text-inter-semi-bold">Храните знания и учитесь!</p>
+          <hr class="border-blue-500 border-t-1" />
+          <p class="pt-5 flex justify-center text-inter-semi-bold">Вход</p>
+        </div>
+
+        <Input class="mt-5 w-96" placeholder="Ваш логин" />
+        <Input class="mt-5 w-96" type="password" placeholder="Пароль" />
+        <div class="mt-12 flex gap-2">
+          <Button class="w-60 bg-blue-900">Войти</Button>
+          <Button class="w-36 bg-blue-500">Через VK ID</Button>
+        </div>
+        <Button @click="redirectToRegisterPage" class="mt-5 w-96 bg-slate-50"
+          ><p class="text-black">Забыл пароль</p></Button
+        >
       </div>
     </div>
   </div>
@@ -23,6 +31,26 @@
 <script setup>
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const redirectToRegisterPage = () => {
+  router.push({ name: 'RegistrationPage' }) // Программный переход на страницу регистрации
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
+.text-extra-bold {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+}
+
+.text-inter-semi-bold {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; /* Semi-Bold вес шрифта */
+  font-size: 28px;
+}
+</style>
