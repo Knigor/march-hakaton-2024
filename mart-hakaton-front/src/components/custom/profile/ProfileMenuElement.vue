@@ -25,7 +25,7 @@ function makeSelected() {
 <template>
   <Collapsible @click="makeSelected" class="flex flex-col w-full h-fit" v-model:open="isOpen">
     <CollapsibleTrigger class="w-full"
-      ><Button class="flex justify-between w-full">
+      ><Button variant="ghost" class="flex justify-between w-full">
         <div class="flex justify-start gap-3">
           <CornerDownRight v-if="isSelect" />
           <slot name="icon"></slot>
