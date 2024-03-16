@@ -1,9 +1,13 @@
 <template>
   <div>
-    <h1>Главная страница</h1>
+    <SiteLogo />
   </div>
+  <ProfileMenu />
 </template>
 
-<script setup></script>
+<script setup>
+import SiteLogo from '../components/custom/SiteLogo.vue'
+import ProfileMenu from '../components/custom/ProfileMenu.vue'
+</script>
 
 <style lang="scss" scoped></style>
