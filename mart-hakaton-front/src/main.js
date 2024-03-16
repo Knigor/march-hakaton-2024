@@ -7,6 +7,8 @@ import RegistrationPage from './views/RegistrationPage.vue'
 import MainPage from './views/MainPage.vue'
 import TeacherAddMaterialsPage from './views/TeacherAddMaterialsPage.vue'
 import TeacherAddsubject from './views/TeacherAddSubject.vue'
+import StudentDiscipline from './views/StudentDisciplinePage.vue'
+import StudentMaterials from './views/StudentMaterials.vue'
 
 const router = createRouter({
   routes: [
@@ -31,6 +33,14 @@ const router = createRouter({
     {
       path: '/addSubject',
       component: TeacherAddsubject
+    },
+    {
+      path: '/materials',
+      component: StudentMaterials
+    },
+    {
+      path: '/discipline',
+      component: StudentDiscipline
     }
   ],
   history: createWebHistory()
