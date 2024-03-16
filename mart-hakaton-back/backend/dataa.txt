@@ -1,0 +1,1 @@
+{"status":"success","user":{"login":"Knigor","hashedPassword":"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","full_name_user":"\u041a\u0440\u0435\u0442\u043e\u0432 \u0418\u0433\u043e\u0440\u044c \u041e\u043b\u0435\u0433\u043e\u0432\u0438\u0447","role_user":"student","date_of_birth":"2001-11-26"}}
