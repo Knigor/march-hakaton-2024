@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
         $text = file_get_contents($targetFile);
     } elseif (strpos($fileType, 'audio/') === 0) {
         // Если файл аудио, используем Whisper API для преобразования аудио в текст
-        $yourApiKey = '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';
+        $yourApiKey = getenv('OPENAI_API_KEY');
         $client = OpenAI::client($yourApiKey);
 
         // Используем путь к загруженному файлу вместо жестко закодированного пути

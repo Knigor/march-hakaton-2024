@@ -26,7 +26,7 @@ $markdown_text_lection = $row['markdown_text_lection'];
 // Отправка запроса к API ChatGPT
 $question = $_POST['question']; // Предполагается, что вопрос передается в POST-запросе
 $api_url = 'https://api.openai.com/v1/chat/completions'; // Обновляем эндпоинт для чат-моделей
-$api_key = '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'; // Замените YOUR_API_KEY на ваш API ключ от OpenAI
+$api_key = getenv('OPENAI_API_KEY'); // Замените YOUR_API_KEY на ваш API ключ от OpenAI
 
 $data = array(
     'model' => 'gpt-3.5-turbo', // Добавляем параметр модели
