@@ -21,8 +21,12 @@ if (isset($_POST["register"])) {
         header('Content-Type: application/json');
         echo json_encode(array('status' => 'error', 'message' => 'Заполните все поля и подтвердите согласие на обработку персональных данных.'));
         exit();
-    } 
-     else {
+    } elseif ($password !== $confirmPassword) {
+        // Возвращаем ошибку, если пароли не совпадают
+        header('Content-Type: application/json');
+        echo json_encode(array('status' => 'error', 'message' => 'Пароли не совпадают.'));
+        exit();
+    } else {
         // Проверка уникальности логина
         $stmtLogin = $pdo->prepare("SELECT * FROM users WHERE login_user = ?");
         $stmtLogin->execute([$login]);
