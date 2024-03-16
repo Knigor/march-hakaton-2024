@@ -3,6 +3,8 @@ import SiteHeader from '../components/custom/SiteHeader.vue'
 import ProfileMenu from '../components/custom/profile/ProfileMenu.vue'
 
 import { Card } from '../components/ui/card'
+
+console.log(localStorage)
 </script>
 
 <template>
