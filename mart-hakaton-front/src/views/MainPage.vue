@@ -1,13 +1,29 @@
-<template>
-  <div>
-    <SiteLogo />
-    <ProfileMenu />
-  </div>
-</template>
-
 <script setup>
-import SiteLogo from '../components/custom/SiteLogo.vue'
-import ProfileMenu from '../components/custom/ProfileMenu.vue'
+import SiteHeader from '../components/custom/SiteHeader.vue'
+import ProfileMenu from '../components/custom/profile/ProfileMenu.vue'
+
+import { Card } from '../components/ui/card'
+
 </script>
 
-<style lang="scss" scoped></style>
+<template>
+  <div class="flex flex-col gap-8 h-full p-16">
+    <SiteHeader />
+    <main class="flex h-full gap-8">
+      <nav class="h-full">
+        <ProfileMenu />
+      </nav>
+      <section class="flex h-full gap-6">
+        <!-- Первая колонка -->
+        <div class="w-full">
+          <Card class="flex flex-col">Последние просмотренные</Card>
+        </div>
+        <!-- Вторая колонка -->
+        <div>
+          <Card>Профиль</Card>
+          <Card>Избранное</Card>
+        </div>
+      </section>
+    </main>
+  </div>
+</template>
