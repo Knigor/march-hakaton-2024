@@ -10,7 +10,7 @@ function deselectOthers() {}
 <template>
   <Card
     @deselectOthers="deselectOthers"
-    class="flex flex-col w-[360px] h-full gap-3 justify-between"
+    class="flex flex-col w-[360px] h-full gap-3 justify-between bg-white"
   >
     <div class="flex flex-col h-full">
       <ProfileMenuElement>
@@ -31,8 +31,8 @@ function deselectOthers() {}
       </ProfileMenuElement>
     </div>
     <div class="flex flex-col gap-1">
-      <Button variant="ghost"><Minimize />Свернуть</Button>
-      <Button variant="ghost"><LogOut />Выйти</Button>
+      <Button variant="ghost" class="flex"><Minimize /><p class="w-full">Свернуть</p></Button>
+      <Button variant="ghost" class="flex"><LogOut /><p class="w-full">Выйти</p></Button>
     </div>
   </Card>
 </template>
