@@ -26,7 +26,7 @@
           <Button class="w-36 bg-blue-500">Через VK ID</Button>
         </div>
         <Button @click="redirectToRegisterPage" class="mt-5 w-96 bg-slate-50"
-          ><p class="text-black">Забыл пароль</p></Button
+          ><p class="text-black">Регистрация</p></Button
         >
       </div>
     </div>
@@ -65,6 +65,13 @@ async function saveData() {
     })
     const status = response.data.status
     console.log('Ответ от сервера:', status)
+
+    if (status === 'success') {
+      // Переход на страницу MainPage
+      router.push({ name: 'MainPage' })
+    } else {
+      isVisible.value = true
+    }
 
     isVisible.value = status === 'error'
   } catch (error) {

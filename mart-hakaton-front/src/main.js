@@ -24,6 +24,7 @@ const router = createRouter({
     },
     {
       path: '/MainPage',
+      name: 'MainPage',
       component: MainPage
     },
     {
