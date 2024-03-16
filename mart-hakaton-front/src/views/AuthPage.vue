@@ -14,10 +14,10 @@
           <p class="pt-5 flex justify-center text-inter-semi-bold">Вход</p>
         </div>
 
-        <Input class="mt-5 w-96" placeholder="Ваш логин" />
-        <Input class="mt-5 w-96" type="password" placeholder="Пароль" />
+        <Input class="mt-5 w-96" placeholder="Ваш логин" v-model="login" />
+        <Input class="mt-5 w-96" type="password" placeholder="Пароль" v-model="password" />
         <div class="mt-12 flex gap-2">
-          <Button class="w-60 bg-blue-900">Войти</Button>
+          <Button @click="saveData" class="w-60 bg-blue-900">Войти</Button>
           <Button class="w-36 bg-blue-500">Через VK ID</Button>
         </div>
         <Button @click="redirectToRegisterPage" class="mt-5 w-96 bg-slate-50"
@@ -34,10 +34,35 @@ import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useRouter } from 'vue-router'
 
+import { ref } from 'vue'
+
+import axios from 'axios'
+
 const router = useRouter()
 
 const redirectToRegisterPage = () => {
   router.push({ name: 'RegistrationPage' }) // Программный переход на страницу регистрации
+}
+
+const login = ref('')
+const password = ref('')
+
+async function saveData() {
+  const params = new URLSearchParams()
+  params.append('username', login.value)
+  params.append('password', password.value)
+
+  try {
+    const response = await axios.post('http://localhost:8001/login.php', params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+
+    console.log('Ответ от сервера:', response.data)
+  } catch (error) {
+    console.error('Ошибка при отправке данных:', error)
+  }
 }
 </script>
 
