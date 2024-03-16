@@ -4,7 +4,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 
 import { Button } from '@/components/ui/button'
 
-import { ref, emit } from 'vue'
+import { ref } from 'vue'
 
 const isOpen = ref(false)
 const isSelect = ref(false)
@@ -20,12 +20,12 @@ function makeSelected() {
   emit('deselectOthers')
   isSelect.value = true
 }
-
 </script>
 
 <template>
   <Collapsible @click="makeSelected" class="flex flex-col w-full h-fit" v-model:open="isOpen">
-    <CollapsibleTrigger class="w-full"><Button class="flex justify-between w-full">
+    <CollapsibleTrigger class="w-full"
+      ><Button class="flex justify-between w-full">
         <div class="flex justify-start gap-3">
           <CornerDownRight v-if="isSelect" />
           <slot name="icon"></slot>
