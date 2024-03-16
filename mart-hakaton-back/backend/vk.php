@@ -1,69 +1,76 @@
 <?php
-
-// Замените на ваши данные из VK API
-$client_id = '51877729';
-$redirect_uri = 'http://localhost'; // Базовый домен localhost
-
-session_start();
-
-// Если пользователь еще не авторизован, отображаем кнопку входа через VK
-if (!isset($_GET['access_token'])) {
-    echo "<a href='https://oauth.vk.com/authorize?client_id={$client_id}&redirect_uri={$redirect_uri}&response_type=token&v=5.131'>Войти через VK</a>";
-} else {
-    // Получаем access token из параметров запроса
-    $access_token = $_GET['access_token'];
-
-    // Получаем информацию о пользователе
-    $user_info_url = "https://api.vk.com/method/users.get?access_token={$access_token}&v=5.131";
-    $user_info = file_get_contents($user_info_url);
-    $user = json_decode($user_info, true);
-
-    // Проверяем успешность получения информации о пользователе
-    if (isset($user['response'][0]['id'])) {
-        // Формируем массив с данными пользователя
-        $user_data = array(
-            'first_name' => $user['response'][0]['first_name'],
-            'last_name' => $user['response'][0]['last_name'],
-            'photo' => $user['response'][0]['photo_200'],
-            'id' => $user['response'][0]['id']
-            // Добавьте другие необходимые данные
-        );
-
-        // Путь к файлу
-        $file_path = __DIR__ . '/papa.txt';
-
-        // Открываем файл для записи (или создания, если его нет)
-        $file = fopen($file_path, 'w');
-
-        // Проверяем успешность открытия файла
-        if ($file) {
-            // Конвертируем массив данных пользователя в строку
-            $user_data_str = implode(", ", $user_data);
-
-            // Записываем данные пользователя в файл
-            fwrite($file, $user_data_str);
-
-            // Закрываем файл
-            fclose($file);
-
-            echo "<h1>Данные пользователя успешно сохранены в файл '{$file_path}'</h1>";
-        } else {
-            echo "<h1>Ошибка при открытии файла для записи</h1>";
-        }
-
-        // Сохраняем данные пользователя в сессию
-        $_SESSION['name'] = $user['response'][0]['first_name'];
-        $_SESSION['name_family'] = $user['response'][0]['last_name'];
-        $_SESSION['uid'] = $user['response'][0]['id'];
-        $_SESSION['access_token'] = $access_token;
-
-        // Перенаправляем пользователя на страницу mypage.php
-        header("Location: /mypage.php");
-        exit; // Важно завершить выполнение скрипта после отправки заголовка перенаправления
-    } else {
-        // Получение информации о пользователе не удалось
-        echo "<h1>Ошибка при получении информации о пользователе</h1>";
-    }
+if (!$_GET['code']){
+    exit('error code');
 }
 
+// Получаем код авторизации из URL
+$code = $_GET['code'];
+
+include 'config.php';
+
+try {
+    // Подключение к базе данных
+    $pdo = new PDO("pgsql:host=postgres-db;dbname=hakaton_bd", "user", "user");
+    // Устанавливаем режим обработки ошибок
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Запрос на получение токена
+    $token_response = file_get_contents('http://oauth.vk.com/access_token?client_id='.ID.'&client_secret='.SECRET.'&redirect_uri='.URL.'&code='.$code);
+
+    // Декодируем ответ
+    $token_data = json_decode($token_response, true);
+
+    // Проверяем, получили ли мы токен
+    if (!$token_data || !isset($token_data['access_token'])) {
+        exit('error tokenlol');
+    }
+
+    // Получаем данные о пользователе
+    $user_data_response = file_get_contents('https://api.vk.com/method/users.get?access_token='.$token_data['access_token'].'&user_ids='.$token_data['user_id'].'&fields=first_name,last_name&v=5.131');
+
+    // Декодируем данные о пользователе
+    $user_data = json_decode($user_data_response, true);
+
+    // Проверяем, получили ли мы данные о пользователе
+    if (!$user_data || !isset($user_data['response'][0])) {
+        exit('error data');
+    }
+
+    // Получаем имя и фамилию пользователя из данных VK
+    $first_name = $user_data['response'][0]['first_name'];
+    $last_name = $user_data['response'][0]['last_name'];
+
+    // Формируем полное имя пользователя
+    $full_name_user = $first_name . ' ' . $last_name;
+
+    // Проверяем, существует ли пользователь с таким user_vk_id
+    $stmt_check = $pdo->prepare("SELECT id_user FROM users WHERE user_vk_id = ?");
+    $stmt_check->execute([$token_data['user_id']]);
+    $existing_user = $stmt_check->fetch(PDO::FETCH_ASSOC);
+
+    // Если пользователь уже существует, получаем его id_user
+    if ($existing_user) {
+        $id_user = $existing_user['id_user'];
+    } else {
+        // Подготавливаем и выполняем запрос на добавление нового пользователя в базу данных
+        $stmt_insert = $pdo->prepare("INSERT INTO users (full_name_user, user_vk_id, role_user) VALUES (?, ?, ?)");
+        $stmt_insert->execute([$full_name_user, $token_data['user_id'], 'student']);
+
+        // Получаем id_user нового пользователя
+        $id_user = $pdo->lastInsertId();
+    }
+
+    // Выводим информацию о пользователе вместе с дополнительными данными
+    $user_data['authorized'] = true;
+    $user_data['role_user'] = 'student';
+    $user_data['id_user'] = $id_user;
+
+    // Выводим информацию о пользователе в формате JSON
+    header('Content-Type: application/json');
+    echo json_encode($user_data, JSON_PRETTY_PRINT);
+
+} catch (PDOException $e) {
+    // Выводим сообщение об ошибке при подключении к базе данных
+    exit("Failed to connect to database: " . $e->getMessage());
+}
 ?>
