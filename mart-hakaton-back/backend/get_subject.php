@@ -13,7 +13,7 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // SQL запрос
-    $sql = "SELECT s.faculty, s.class, s.name_item, u.full_name_user 
+    $sql = "SELECT s.subject_id, s.faculty, s.class, s.name_item, u.full_name_user 
             FROM subject s
             LEFT JOIN users u ON s.id_user = u.id_user";
     
@@ -26,6 +26,7 @@ try {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         // Создание отдельного объекта для каждой строки сущности
         $subject_data = array(
+            'subject_id' => $row['subject_id'],
             'faculty' => $row['faculty'],
             'class' => $row['class'],
             'name_item' => $row['name_item'],

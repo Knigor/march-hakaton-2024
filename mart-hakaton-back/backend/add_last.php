@@ -30,7 +30,7 @@ try {
     $stmt->execute();
 
     // Получение дополнительной информации из таблицы lection и users
-    $stmt_info = $pdo->prepare("SELECT l.markdown_text_lection, l.title_lection, l.subject_id, l.audio_lection, u.full_name_user
+    $stmt_info = $pdo->prepare("SELECT l.id_user AS lection_id_user, l.markdown_text_lection, l.title_lection, l.subject_id, l.audio_lection, u.full_name_user
                                 FROM lection l
                                 JOIN users u ON l.id_user = u.id_user
                                 WHERE l.id_lection = :id_lection");
