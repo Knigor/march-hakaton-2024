@@ -1,5 +1,5 @@
 <template>
-  <div class="rectangle p-4 rounded-lg">
+  <div class="rectangle p-4 rounded-lg" @click="selectDiscipline">
     <div class="text-xl text-inter-title mb-1">{{ title }}</div>
     <div class="faculty flex">
       <img src="@/img/hexagon.svg" class="mr-2" alt="" />
@@ -9,15 +9,32 @@
       <img src="@/img/graduation-cap.svg" class="mr-2" alt="" />
       <div class="text-inter-info">{{ course }} курс</div>
     </div>
-    <div class="teacher flex">
+    <div class="teacher flex justify-start" v-if="isStudent">
       <img src="@/img/person-standing.svg" class="mr-2" alt="" />
       <div class="text-inter-info">{{ nameTeacher }}</div>
+    </div>
+    <div class="delete flex edit flex justify-end" v-else>
+      <img
+        src="@/img/trash.svg"
+        class="w-7 h-7 p-1"
+        alt=""
+        @click="handleDeleteClick"
+        style="background-color: #f87171; border-radius: 90px; border: 2px solid #fecaca"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    handleDeleteClick() {
+      console.log('Иконка delete была нажата')
+    },
+    selectDiscipline() {
+      console.log('Переход на конкретную дисциплину')
+    }
+  },
   props: {
     title: {
       type: String,
