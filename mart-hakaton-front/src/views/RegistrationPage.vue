@@ -73,6 +73,10 @@ const userType = ref('student')
 const register = ref('register')
 const isVisible = ref(false)
 
+const redirectToMainPage = () => {
+  router.push({ name: 'MainPage' })
+}
+
 const handleUserTypeChange = (value) => {
   userType.value = value
 }
@@ -109,6 +113,11 @@ async function saveData(newValue) {
     console.log('Ответ от сервера:', status)
 
     isVisible.value = status === 'error'
+
+    if (status === 'success') {
+      // Перенаправление на страницу MainPage после успешной регистрации
+      redirectToMainPage()
+    }
   } catch (error) {
     console.error('Ошибка при отправке данных:', error)
   }
