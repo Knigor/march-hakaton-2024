@@ -1,5 +1,10 @@
 <?php
 
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST');
+
+
 $pdo = new PDO("pgsql:host=postgres-db; dbname=hakaton_bd", "user", "user");
 
 if (isset($_POST["register"])) {
@@ -45,6 +50,12 @@ if (isset($_POST["register"])) {
             $stmtInsert = $pdo->prepare("INSERT INTO users (login_user, password_user, role_user, full_name_user, date_of_birth) VALUES (:login, :hashedPassword, :role_user, :full_name_user, :date_of_birth)");
             $stmtInsert->execute($data);
 
+            // Получение id новой записи
+            $id_user = $pdo->lastInsertId();
+
+            // Добавление id_user к данным
+            $data['id_user'] = $id_user;
+
             // Запись данных в файл
             $userDataString = json_encode(array('status' => 'success', 'user' => $data));
             file_put_contents('dataa.txt', $userDataString . PHP_EOL, FILE_APPEND);
@@ -58,6 +69,7 @@ if (isset($_POST["register"])) {
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
