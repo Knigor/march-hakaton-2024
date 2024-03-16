@@ -66,7 +66,15 @@ async function saveData() {
     const status = response.data.status
     console.log('Ответ от сервера:', status)
 
+    console.log(response.data.id_user)
+
     if (status === 'success') {
+      localStorage.setItem('login', login.value)
+      localStorage.setItem('id_user', response.data.id_user)
+      localStorage.setItem('role_user', response.data.role)
+
+      console.log(localStorage.getItem('login'))
+
       // Переход на страницу MainPage
       router.push({ name: 'MainPage' })
     } else {

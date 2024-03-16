@@ -23,14 +23,14 @@
           type="password"
           placeholder="Придумайте пароль"
         />
-        <RadioGroup class="mt-5 ml-1 flex gap-32" default-value="option-one">
+        <RadioGroup class="mt-5 ml-1 flex gap-32" v-model="selectedRole">
           <div class="flex items-center space-x-2">
             <RadioGroupItem id="student" value="student" />
-            <Label v-model="student" for="student">Я студент</Label>
+            <Label for="student">Я студент</Label>
           </div>
           <div class="flex items-center space-x-2">
             <RadioGroupItem id="teacher" value="teacher" />
-            <Label v-model="teacher" for="teacher">Я преподаватель</Label>
+            <Label for="teacher">Я преподаватель</Label>
           </div>
         </RadioGroup>
         <Alert v-if="isVisible" class="mt-5" variant="destructive">
@@ -60,33 +60,36 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { useStore } from 'vuex'
 
 import axios from 'axios'
 
 const router = useRouter()
 
+const store = useStore()
+
 const FullName = ref('')
 const BirthDate = ref('')
 const Login = ref('')
 const Password = ref('')
-const userType = ref('student')
+const selectedRole = ref('student')
 const register = ref('register')
 const isVisible = ref(false)
-
-const redirectToMainPage = () => {
-  router.push({ name: 'MainPage' })
-}
 
 const handleUserTypeChange = (value) => {
   userType.value = value
 }
 
-const watchUserTypeChange = (newValue) => {
-  console.log('Выбран тип пользователя:', newValue)
-}
+// const watchUserTypeChange = (newValue) => {
+//   console.log('Выбран тип пользователя:', newValue)
+// }
 
 const redirectToAuthPage = () => {
   router.push({ name: 'AuthPage' })
+}
+
+const redirectToMainPage = () => {
+  router.push({ name: 'MainPage' })
 }
 
 async function saveData(newValue) {
@@ -100,7 +103,7 @@ async function saveData(newValue) {
   params.append('full_name', FullName.value)
   params.append('password', Password.value)
   params.append('date_birth', BirthDate.value)
-  params.append('role', newValue)
+  params.append('role', selectedRole.value)
   params.append('register', register.value)
 
   try {
@@ -109,14 +112,25 @@ async function saveData(newValue) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
+    console.log('Ответ от сервера:', response) // Выводим весь ответ сервера
     const status = response.data.status
-    console.log('Ответ от сервера:', status)
+    console.log('Статус ответа:', status)
 
-    isVisible.value = status === 'error'
+    console.log(response.data.user)
+
+    // Это локальное хранилище для пользователя
 
     if (status === 'success') {
-      // Перенаправление на страницу MainPage после успешной регистрации
+      localStorage.setItem('login', response.data.user.login)
+      localStorage.setItem('role_user', response.data.user.role_user)
+      localStorage.setItem('id_user', response.data.user.id_user)
+
+      console.log(localStorage.getItem('login'))
+
       redirectToMainPage()
+    } else {
+      // Если статус ответа не 'success', устанавливаем isVisible в true
+      isVisible.value = true
     }
   } catch (error) {
     console.error('Ошибка при отправке данных:', error)

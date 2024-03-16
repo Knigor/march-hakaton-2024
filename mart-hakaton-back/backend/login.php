@@ -21,10 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user) {
             // Успешная аутентификация
             $_SESSION["user"] = $user;
-            // Отправка JSON-ответа
             
+            // Добавляем выборку роли пользователя
+            $role = $user['role_user'];
+            
+            // Отправка JSON-ответа
             header('Content-Type: application/json');
-            echo json_encode(array('status' => 'success'));
+            echo json_encode(array('status' => 'success', 'id_user' => $user['id_user'], 'role' => $role));
             exit();
         } else {
             // Ошибка авторизации

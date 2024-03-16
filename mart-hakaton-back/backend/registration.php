@@ -16,7 +16,7 @@ if (isset($_POST["register"])) {
     $role_user = ($_POST["role"] == "student") ? "student" : "teacher"; // Определение роли пользователя
 
     // Валидация данных (в данном примере простая валидация)
-    if (empty($login) || empty($password) || empty($full_name)) {
+    if (empty($login) ||  empty($password) || empty($full_name)) {
         // Возвращаем ошибку, если не все поля заполнены
         header('Content-Type: application/json');
         echo json_encode(array('status' => 'error', 'message' => 'Заполните все поля и подтвердите согласие на обработку персональных данных.'));
@@ -50,6 +50,12 @@ if (isset($_POST["register"])) {
             $stmtInsert = $pdo->prepare("INSERT INTO users (login_user, password_user, role_user, full_name_user, date_of_birth) VALUES (:login, :hashedPassword, :role_user, :full_name_user, :date_of_birth)");
             $stmtInsert->execute($data);
 
+            // Получение id новой записи
+            $id_user = $pdo->lastInsertId();
+
+            // Добавление id_user к данным
+            $data['id_user'] = $id_user;
+
             // Запись данных в файл
             $userDataString = json_encode(array('status' => 'success', 'user' => $data));
             file_put_contents('dataa.txt', $userDataString . PHP_EOL, FILE_APPEND);
@@ -63,6 +69,7 @@ if (isset($_POST["register"])) {
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
