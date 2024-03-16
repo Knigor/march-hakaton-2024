@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["user"] = $user;
             // Отправка JSON-ответа
             header('Content-Type: application/json');
-            echo json_encode(array('status' => 'success', 'user' => $user));
+            echo json_encode(array('status' => 'success'));
             exit();
         } else {
             // Ошибка авторизации
