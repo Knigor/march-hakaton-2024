@@ -1,8 +1,8 @@
 <template>
   <div>
     <SiteLogo />
+    <ProfileMenu />
   </div>
-  <ProfileMenu />
 </template>
 
 <script setup>
