@@ -9,6 +9,7 @@ import TeacherAddMaterialsPage from './views/TeacherAddMaterialsPage.vue'
 import TeacherAddsubject from './views/TeacherAddSubject.vue'
 import StudentDiscipline from './views/StudentDisciplinePage.vue'
 import StudentMaterials from './views/StudentMaterials.vue'
+import store from './store'
 
 const router = createRouter({
   routes: [
@@ -51,3 +52,4 @@ const app = createApp(App)
 
 app.use(router)
 app.mount('#app')
+app.use(store)
