@@ -14,22 +14,35 @@
           <p class="pt-5 flex justify-center text-inter-semi-bold">Регистрация</p>
         </div>
 
-        <Input class="mt-5 w-96" placeholder="ФИО" />
-        <Input class="mt-5 w-96" placeholder="Дата рождения" />
-        <Input class="mt-5 w-96" placeholder="Придумайте логин" />
-        <Input class="mt-5 w-96" type="password" placeholder="Придумайте пароль" />
+        <Input v-model="FullName" class="mt-5 w-96" placeholder="ФИО" />
+        <Input v-model="BirthDate" class="mt-5 w-96" placeholder="Дата рождения" />
+        <Input v-model="Login" class="mt-5 w-96" placeholder="Придумайте логин" />
+        <Input
+          v-model="Password"
+          class="mt-5 w-96"
+          type="password"
+          placeholder="Придумайте пароль"
+        />
         <RadioGroup class="mt-5 ml-1 flex gap-32" default-value="option-one">
           <div class="flex items-center space-x-2">
-            <RadioGroupItem id="option-one" value="option-one" />
-            <Label for="option-one">Я студент</Label>
+            <RadioGroupItem id="student" value="student" />
+            <Label v-model="student" for="student">Я студент</Label>
           </div>
           <div class="flex items-center space-x-2">
-            <RadioGroupItem id="option-two" value="option-two" />
-            <Label for="option-two">Я преподаватель</Label>
+            <RadioGroupItem id="teacher" value="teacher" />
+            <Label v-model="teacher" for="teacher">Я преподаватель</Label>
           </div>
         </RadioGroup>
+        <Alert v-if="isVisible" class="mt-5" variant="destructive">
+          <AlertTitle>Ошибка</AlertTitle>
+          <AlertDescription class="w-80"
+            >Пользователь с таким логином уже существует или заполнены не все поля</AlertDescription
+          >
+        </Alert>
         <div class="mt-12 flex gap-2">
-          <Button class="w-60 bg-blue-900">Зарегестрироваться</Button>
+          <Button v-model="register" @click="saveData" class="w-60 bg-blue-900"
+            >Зарегестрироваться</Button
+          >
           <Button class="w-36 bg-blue-500">Через VK ID</Button>
         </div>
         <Button @click="redirectToAuthPage" class="mt-5 w-96 bg-slate-50"
@@ -45,11 +58,60 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+
+import axios from 'axios'
 
 const router = useRouter()
 
+const FullName = ref('')
+const BirthDate = ref('')
+const Login = ref('')
+const Password = ref('')
+const userType = ref('student')
+const register = ref('register')
+const isVisible = ref(false)
+
+const handleUserTypeChange = (value) => {
+  userType.value = value
+}
+
+const watchUserTypeChange = (newValue) => {
+  console.log('Выбран тип пользователя:', newValue)
+}
+
 const redirectToAuthPage = () => {
   router.push({ name: 'AuthPage' })
+}
+
+async function saveData(newValue) {
+  // if (!FullName.value || !BirthDate.value || !Login.value || !Password.value) {
+  //   alert('Пожалуйста, заполните все поля!')
+  //   return
+  // }
+
+  const params = new URLSearchParams()
+  params.append('login', Login.value)
+  params.append('full_name', FullName.value)
+  params.append('password', Password.value)
+  params.append('date_birth', BirthDate.value)
+  params.append('role', newValue)
+  params.append('register', register.value)
+
+  try {
+    const response = await axios.post('http://localhost/registration.php', params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+    const status = response.data.status
+    console.log('Ответ от сервера:', status)
+
+    isVisible.value = status === 'error'
+  } catch (error) {
+    console.error('Ошибка при отправке данных:', error)
+  }
 }
 </script>
 

@@ -1,5 +1,10 @@
 <?php
 
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST');
+
+
 $pdo = new PDO("pgsql:host=postgres-db; dbname=hakaton_bd", "user", "user");
 
 if (isset($_POST["register"])) {
