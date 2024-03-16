@@ -2,16 +2,15 @@
 // Параметры подключения к базе данных
 $host = 'postgres-db';
 $dbname = 'hakaton_bd';
-$user = 'user';
+$username = 'user';
 $password = 'user';
 
 $response = array();
 
 try {
-    // Подключение к базе данных с помощью PDO
-    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
-    // Устанавливаем режим ошибок PDO на исключение
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Подключение к базе данных с помощью PDO и драйвера pgsql
+    $conn = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Получение id_user и id_lection из POST запроса
     $id_user = $_POST['id_user'];
@@ -21,7 +20,7 @@ try {
     $current_datetime = date('Y-m-d H:i:s');
 
     // Подготовка запроса на добавление данных в таблицу last_view
-    $stmt = $pdo->prepare("INSERT INTO last_view (id_user, id_lection, date) VALUES (:id_user, :id_lection, :current_datetime)");
+    $stmt = $conn->prepare("INSERT INTO last_view (id_user, id_lection, date) VALUES (:id_user, :id_lection, :current_datetime)");
     // Привязка параметров
     $stmt->bindParam(':id_user', $id_user);
     $stmt->bindParam(':id_lection', $id_lection);
@@ -30,7 +29,7 @@ try {
     $stmt->execute();
 
     // Получение дополнительной информации из таблицы lection и users
-    $stmt_info = $pdo->prepare("SELECT l.id_user AS lection_id_user, l.markdown_text_lection, l.title_lection, l.subject_id, l.audio_lection, u.full_name_user
+    $stmt_info = $conn->prepare("SELECT l.id_user AS lection_id_user, l.markdown_text_lection, l.title_lection, l.subject_id, l.audio_lection, u.full_name_user
                                 FROM lection l
                                 JOIN users u ON l.id_user = u.id_user
                                 WHERE l.id_lection = :id_lection");
