@@ -1,17 +1,14 @@
 <template>
   <div class="h-full flex flex-col gap-10">
     <p class="pt-5 flex text-inter-semi-bold">Философия</p>
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 px-0 py-25"
-    >
-      <LectionCard :title="Заголовок" :isAudio="true" :isFavorite="true" />
-      <!-- <div v-for="material in materials" :key="material.id">
+    <div class="flex-col">
+      <div v-for="material in materials" :key="material.id" class="mb-2">
         <LectionCard
           :title="material.title"
           :isAudio="material.isAudio"
           :isFavorite="material.isFavorite"
         />
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -19,20 +16,20 @@
 <script setup>
 import LectionCard from '../components/custom/LectionCard.vue'
 
-// const materials = [
-//   {
-//     id: 1,
-//     title: 'Физика',
-//     isAudio: true,
-//     isFavorite: false
-//   },
-//   {
-//     id: 2,
-//     title: 'Нано еббб]',
-//     isAudio: false,
-//     isFavorite: true
-//   }
-// ]
+const materials = [
+  {
+    id: 1,
+    title: 'Физика',
+    isAudio: true,
+    isFavorite: false
+  },
+  {
+    id: 2,
+    title: 'Нано еббб]',
+    isAudio: false,
+    isFavorite: true
+  }
+]
 </script>
 
 <style>
