@@ -17,6 +17,8 @@ const logOut = () => {
 const discipline = () => {
   if (localStorage.role_user === 'teacher') {
     router.push('/discipline')
+  } else if (localStorage.role_user === 'student') {
+    router.push('/discipline')
   }
 }
 
