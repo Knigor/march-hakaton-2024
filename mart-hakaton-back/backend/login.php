@@ -22,12 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Успешная аутентификация
             $_SESSION["user"] = $user;
             
-            // Добавляем выборку роли пользователя
+            // Добавляем выборку роли и ФИО пользователя
             $role = $user['role_user'];
+            $fullName = $user['full_name_user']; // Изменение здесь
             
-            // Отправка JSON-ответа
+            // Отправка JSON-ответа с ФИО пользователя
             header('Content-Type: application/json');
-            echo json_encode(array('status' => 'success', 'id_user' => $user['id_user'], 'role' => $role));
+            echo json_encode(array('status' => 'success', 'id_user' => $user['id_user'], 'role' => $role, 'full_name' => $fullName));
             exit();
         } else {
             // Ошибка авторизации

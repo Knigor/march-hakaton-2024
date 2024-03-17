@@ -3,6 +3,16 @@ import { User, Book, Star, Settings, LogOut, Minimize } from 'lucide-vue-next'
 import ProfileMenuElement from './ProfileMenuElement.vue'
 import { Button } from '@/components/ui/button'
 import Card from '@/components/ui/card/Card.vue'
+import { useRouter } from 'vue-router'
+
+console.log(localStorage)
+
+const router = useRouter()
+
+const logOut = () => {
+  localStorage.clear()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -31,7 +41,7 @@ import Card from '@/components/ui/card/Card.vue'
           ><Minimize />
           <p class="w-full">Свернуть</p></Button
         >
-        <Button variant="ghost" class="flex"
+        <Button @click="logOut" variant="ghost" class="flex"
           ><LogOut />
           <p class="w-full">Выйти</p></Button
         >
