@@ -100,7 +100,7 @@ axios
                   :key="views.id"
                   :date="views.date"
                   :title_lection="views.title_lection"
-                  :full_name_userr="views.full_name_user"
+                  :full_name_user="views.full_name_user"
                 />
               </div>
             </ScrollArea>
@@ -143,6 +143,12 @@ axios
             <h2 class="font-semibold text-2xl">Избранное</h2>
             <ScrollArea>
               <div class="flex flex-col gap-5">
+                <FavoriteElement
+                  v-for="favorite in favorite"
+                  :key="favorite.id"
+                  :title_lection="favorite.title_lection"
+                  :name_item="favorite.name_item"
+                />
                 <FavoriteElement /><FavoriteElement /> <FavoriteElement /><FavoriteElement />
                 <FavoriteElement /><FavoriteElement /><FavoriteElement /><FavoriteElement /><FavoriteElement /><FavoriteElement />
               </div>
