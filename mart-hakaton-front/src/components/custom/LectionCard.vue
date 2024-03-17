@@ -1,5 +1,5 @@
 <template>
-  <div class="box p-4 rounded-lg flex items-center justify-between">
+  <div class="box p-3 rounded-lg flex items-center justify-between" @click="selectLection">
     <div class="titles flex items-center">
       <div class="audio">
         <img src="@/img/voicemail.svg" class="mr-2 w-5 h-5" v-if="isAudio" alt="" />
@@ -7,15 +7,40 @@
       </div>
       <div class="text-xl text-inter-title mb-1">{{ title }}</div>
     </div>
-    <div class="favorite flex">
+    <div class="action flex edit flex justify-end">
+      <div class="favorite flex">
+        <img
+          src="@/img/star.svg"
+          class="w-7 h-7 p-1"
+          alt=""
+          v-if="isFavorite"
+          @click="handleFavoriteClick"
+          style="border-radius: 90px; border: 2px solid #e2e8f0"
+        />
+        <img
+          src="@/img/star-1.svg"
+          class="w-7 h-7 p-1"
+          alt=""
+          v-else
+          @click="handleFavoriteClick"
+          style="border-radius: 90px; border: 2px solid #e2e8f0"
+        />
+      </div>
       <img
-        src="@/img/star.svg"
-        class="mr-2"
+        src="@/img/pencil.svg"
+        class="w-7 h-7 p-1 ml-5"
         alt=""
-        v-if="isFavorite"
-        @click="handleFavoriteClick"
+        v-if="!isStudent"
+        style="border-radius: 90px; border: 2px solid #e2e8f0"
       />
-      <img src="@/img/star-1.svg" class="mr-2" alt="" v-else @click="handleFavoriteClick" />
+      <img
+        src="@/img/trash.svg"
+        class="w-7 h-7 p-1 ml-5"
+        alt=""
+        @click="handleDeleteClick"
+        v-if="!isStudent"
+        style="background-color: #f87171; border-radius: 90px; border: 2px solid #fecaca"
+      />
     </div>
   </div>
 </template>
@@ -34,11 +59,18 @@ export default {
     isFavorite: {
       type: Boolean,
       required: true
+    },
+    isStudent: {
+      type: Boolean,
+      required: true
     }
   },
   methods: {
     handleFavoriteClick() {
       console.log('Иконка favorite была нажата')
+    }, 
+    selectLection() {
+      console.log('Переход на конкретную лекцию')
     }
   }
 }
@@ -60,7 +92,7 @@ export default {
 }
 
 .box {
-  width: 98vw;
+  /* width: 98vw; */
   border: solid 1px;
   border-color: #e5e7eb;
   background-color: white;
