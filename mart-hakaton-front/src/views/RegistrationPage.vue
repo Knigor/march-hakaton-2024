@@ -121,6 +121,7 @@ async function saveData(newValue) {
       localStorage.setItem('login', response.data.user.login)
       localStorage.setItem('role_user', response.data.user.role_user)
       localStorage.setItem('id_user', response.data.user.id_user)
+      localStorage.setItem('full_name', response.data.user.full_name_user)
 
       console.log(localStorage.getItem('login'))
 

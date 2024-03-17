@@ -12,6 +12,11 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { AtSign, Hash, Hexagon, Pencil } from 'lucide-vue-next'
+import { ref } from 'vue'
+
+let login = localStorage.login
+let role = localStorage.role_user
+let fullName = localStorage.full_name
 </script>
 
 <template>
@@ -45,7 +50,7 @@ import { AtSign, Hash, Hexagon, Pencil } from 'lucide-vue-next'
             </Avatar>
             <div class="flex flex-col gap-2">
               <div class="flex gap-3">
-                <h2 class="font-semibold text-2xl">Иванов Иван Иванович</h2>
+                <h2 class="font-semibold text-2xl">{{ fullName }}</h2>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger
@@ -60,9 +65,9 @@ import { AtSign, Hash, Hexagon, Pencil } from 'lucide-vue-next'
               </div>
               <div class="flex gap-4">
                 <Badge variant="outline" class="flex gap-1.5"
-                  ><AtSign size="16" />ivanov_ivan12</Badge
+                  ><AtSign size="16" />{{ login }}</Badge
                 >
-                <Badge variant="outline" class="flex gap-1.5"><Hash size="16" />Студент</Badge>
+                <Badge variant="outline" class="flex gap-1.5"><Hash size="16" />{{ role }}</Badge>
                 <Badge variant="outline" class="flex gap-1.5"><Hexagon size="16" />ФАИ</Badge>
               </div>
             </div>

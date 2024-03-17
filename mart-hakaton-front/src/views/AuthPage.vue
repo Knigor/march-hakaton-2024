@@ -42,6 +42,8 @@ import { ref } from 'vue'
 import SiteLogo from '../components/custom/SiteLogo.vue'
 import axios from 'axios'
 
+console.log(localStorage)
+
 const router = useRouter()
 
 const redirectToRegisterPage = () => {
@@ -72,6 +74,7 @@ async function saveData() {
       localStorage.setItem('login', login.value)
       localStorage.setItem('id_user', response.data.id_user)
       localStorage.setItem('role_user', response.data.role)
+      localStorage.setItem('full_name', response.data.full_name)
 
       console.log(localStorage.getItem('login'))
 
