@@ -3,3 +3,4 @@
 {"status":"success","user":{"login":"asd2222277","hashedPassword":"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","full_name_user":"asasd","role_user":"student","date_of_birth":"2003-03-19"}}
 {"status":"success","user":{"login":"SS","hashedPassword":"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","full_name_user":"asasd","role_user":"student","date_of_birth":"2003-03-19"}}
 {"status":"success","user":{"login":"SS\u044b","hashedPassword":"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","full_name_user":"asasd","role_user":"student","date_of_birth":"2003-03-19","id_user":"31"}}
+{"status":"success","user":{"login":"worker","hashedPassword":"87eba76e7f3164534045ba922e7770fb58bbd14ad732bbf5ba6f11cc56989e6e","full_name_user":"1212","role_user":"student","date_of_birth":"2003-03-19","id_user":"36"}}

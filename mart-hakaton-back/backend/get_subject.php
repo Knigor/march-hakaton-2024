@@ -1,47 +1,45 @@
 <?php
-// Параметры подключения к базе данных PostgreSQL
+// Подключение к базе данных (замените значения на ваши)
 $host = 'postgres-db';
 $dbname = 'hakaton_bd';
 $username = 'user';
 $password = 'user';
 
 try {
-    // Подключение к базе данных с использованием PDO
+    // Подключение к базе данных
     $conn = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    
+    // Установка режима обработки ошибок
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // ID пользователя, для которого нужно выполнить запрос
-    $id_user = $_POST['id_user'] ?? null; // Предполагается, что id_user передается в POST-запросе
-
-    if ($id_user) {
-        // SQL запрос для получения данных
-        $query = "SELECT lv.date, lv.id_lection, l.title_lection, l.subject_id, u.full_name_user 
-                  FROM last_view lv
-                  JOIN lection l ON lv.id_lection = l.id_lection
-                  JOIN users u ON l.id_user = u.id_user
-                  WHERE lv.id_user = :id_user";
-
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
-        $stmt->execute();
-
-        // Вывод результатов запроса
-        echo "<table>\n";
-        echo "<tr><th>Date</th><th>ID Lection</th><th>Title Lection</th><th>Subject ID</th><th>Full Name User</th></tr>\n";
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr>";
-            echo "<td>" . $row['date'] . "</td>";
-            echo "<td>" . $row['id_lection'] . "</td>";
-            echo "<td>" . $row['title_lection'] . "</td>";
-            echo "<td>" . $row['subject_id'] . "</td>";
-            echo "<td>" . $row['full_name_user'] . "</td>";
-            echo "</tr>\n";
-        }
-        echo "</table>\n";
-    } else {
-        echo "Ошибка: Не удалось получить id_user из POST-запроса.";
+    
+    // SQL запрос
+    $sql = "SELECT s.subject_id, s.faculty, s.class, s.name_item, u.full_name_user 
+            FROM subject s
+            LEFT JOIN users u ON s.id_user = u.id_user";
+    
+    // Подготовка и выполнение запроса
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    
+    // Формирование результата в формате JSON
+    $result = array();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Создание отдельного объекта для каждой строки сущности
+        $subject_data = array(
+            'subject_id' => $row['subject_id'],
+            'faculty' => $row['faculty'],
+            'class' => $row['class'],
+            'name_item' => $row['name_item'],
+            'full_name_user' => $row['full_name_user']
+        );
+        // Добавление объекта в массив результата
+        $result[] = $subject_data;
     }
-} catch (PDOException $e) {
-    echo "Ошибка подключения к базе данных: " . $e->getMessage();
+    
+    // Вывод результата в формате JSON
+    echo json_encode($result);
+} catch(PDOException $e) {
+    // В случае ошибки выводим сообщение об ошибке
+    echo "Connection failed: " . $e->getMessage();
 }
 ?>
