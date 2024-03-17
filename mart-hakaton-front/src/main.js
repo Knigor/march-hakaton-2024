@@ -9,6 +9,7 @@ import TeacherAddMaterialsPage from './views/TeacherAddMaterialsPage.vue'
 import TeacherAddsubject from './views/TeacherAddSubject.vue'
 import StudentDiscipline from './views/StudentDisciplinePage.vue'
 import StudentMaterials from './views/StudentMaterials.vue'
+import StudentMaterialsText from './views/StudentMaterialsText.vue'
 import store from './store'
 
 const router = createRouter({
@@ -43,6 +44,10 @@ const router = createRouter({
     {
       path: '/discipline',
       component: StudentDiscipline
+    },
+    {
+      path: '/materials/read',
+      component: StudentMaterialsText
     }
   ],
   history: createWebHistory()
