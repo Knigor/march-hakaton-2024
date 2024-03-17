@@ -42,3 +42,7 @@ npm run lint
 Более подробную информацию об API можете найти здесь:
 
 <https://docs.google.com/document/d/17PdUXD6xFid6jVRV1y4edb6cvxYxmTe1PbWv_8oSqVM/edit?usp=sharing>
+
+Ознакомиться с дизайном:
+
+<https://www.figma.com/file/i6btcpMI5PBJTMhGADRqCP/Полноценный-дизайн-сервиса?type=design&node-id=102-323&mode=design&t=dPE472Udh7XQqzWX-0>
