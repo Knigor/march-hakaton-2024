@@ -7,8 +7,8 @@
       </nav>
       <div class="h-full w-full flex flex-col gap-10">
         <div class="flex flex-row w-full">
-          <div class="px-10 py-5">
-            <p>Создание дисциплины</p>
+          <div class="px-10 py-5 w-full">
+            <p class="text-xl text-inter-title mb-1">Создание дисциплины</p>
             <Input class="mt-5 mb-5" placeholder="Введите название" />
 
             <div class="relative">
@@ -17,6 +17,11 @@
               >
                 <option>Факультет</option>
                 <option>ИКН</option>
+                <option>ИСА</option>
+                <option>ЗФ</option>
+                <option>ФДО</option>
+                <option>ИМиТ</option>
+                <option>МИ</option>
                 <option>ИСНэП</option>
                 <option>УК</option>
               </select>
@@ -43,6 +48,8 @@
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
+                <option>4</option>
+                <option>5</option>
               </select>
               <div
                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -103,9 +110,9 @@
               </label>
             </div>
 
-            <div class="flex justify-between mt-5 w-96">
-              <Button> Вернуться </Button>
-              <Button> Опубликовать </Button>
+            <div class="flex justify-between mt-5">
+              <Button class="bg-blue-700"> Вернуться </Button>
+              <Button class="bg-blue-700"> Опубликовать </Button>
             </div>
           </div>
         </div>
@@ -124,4 +131,12 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
+.text-inter-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #0f172a;
+}
+</style>
