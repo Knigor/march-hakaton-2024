@@ -1,5 +1,5 @@
 <template>
-  <div class="rectangle p-4 rounded-lg" @click="selectDiscipline">
+  <div @click="redirectToMaterialsPage" class="rectangle p-4 rounded-lg">
     <div class="text-xl text-inter-title mb-1">{{ title }}</div>
     <div class="faculty flex">
       <img src="@/img/hexagon.svg" class="mr-2" alt="" />
@@ -26,16 +26,19 @@
 </template>
 
 <script>
+import { defineProps, defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
+
+const props = defineProps(['title', 'faculty', 'course', 'nameTeacher', 'isStudent'])
+const router = useRouter()
+
+const redirectToMaterialsPage = () => {
+  router.push('/materials')
+}
+
 export default {
-  methods: {
-    handleDeleteClick() {
-      console.log('Иконка delete была нажата')
-    },
-    selectDiscipline() {
-      console.log('Переход на конкретную дисциплину')
-    }
-  },
   props: {
+    // определите необходимые пропсы для вашей карточки (например, title, faculty и т. д.)
     title: {
       type: String,
       required: true
@@ -55,6 +58,17 @@ export default {
     isStudent: {
       type: Boolean,
       required: true
+    }
+  },
+  setup(props) {
+    const emit = defineEmits(['cardClick'])
+
+    const handleCardClick = () => {
+      emit('cardClick')
+    }
+
+    return {
+      handleCardClick
     }
   }
 }
