@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import { StarOff } from 'lucide-vue-next'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
-const { date, title_lection, full_name_user } = toRefs(props)
 
 </script>
 
