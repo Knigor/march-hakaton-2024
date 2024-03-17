@@ -2,13 +2,11 @@
   <div class="flex flex-col gap-8 h-full p-16">
     <SiteHeader />
     <main class="flex h-full gap-8">
-      <nav class="h-full">
-        <ProfileMenu />
-      </nav>
+      <ProfileMenu />
       <div class="h-full w-full flex flex-col gap-10">
         <div class="title flex justify-between items-center">
-          <p class="pt-5 flex text-inter-semi-bold">Дисциплины</p>
-          <Button @click="addDiscipline" class="bg-blue-700" v-if="!isStudent">Добавить</Button>
+          <p class="flex font-semibold text-2xl">Дисциплины</p>
+          <Button @click="addDiscipline" variant="outline" v-if="!isStudent">Добавить</Button>
         </div>
         <div class="flex flex-wrap justify-start gap-5 px-0 py-25" style="width: 100%">
           <DisplineCard
@@ -32,6 +30,7 @@ import { ref, onMounted } from 'vue'
 import DisplineCard from '../components/custom/DisciplineCard.vue'
 import SiteHeader from '../components/custom/SiteHeader.vue'
 import ProfileMenu from '../components/custom/profile/ProfileMenu.vue'
+import { Button } from '@/components/ui/button'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
