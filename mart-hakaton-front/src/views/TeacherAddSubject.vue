@@ -9,10 +9,11 @@
         <div class="flex flex-row w-full">
           <div class="px-10 py-5 w-full">
             <p class="text-xl text-inter-title mb-1">Создание дисциплины</p>
-            <Input class="mt-5 mb-5" placeholder="Введите название" />
+            <Input v-model="disciplineName" class="mt-5 mb-5" placeholder="Введите название" />
 
             <div class="relative">
               <select
+                v-model="faculty"
                 class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option>Факультет</option>
@@ -42,6 +43,7 @@
 
             <div class="relative mt-5">
               <select
+                v-model="course"
                 class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option>Курс</option>
@@ -106,13 +108,17 @@
                     <span class="font-semibold"><em>Для выбора нажмите на это окно.</em></span>
                   </p>
                 </div>
-                <input id="dropzone-file" type="file" class="hidden" />
+                <input @change="handleFileUpload" id="dropzone-file" type="file" class="hidden" />
               </label>
             </div>
 
             <div class="flex justify-between mt-5">
-              <Button class="bg-blue-700"> Вернуться </Button>
-              <Button class="bg-blue-700"> Опубликовать </Button>
+              <Button @click="backPage" class="bg-blue-700"> Вернуться </Button>
+              <Button @click="saveData" class="bg-blue-700"> Опубликовать </Button>
+              <div>{{ disciplineName }}</div>
+              <div>{{ faculty }}</div>
+              <div>{{ course }}</div>
+              <div>{{ coverImage }}</div>
             </div>
           </div>
         </div>
@@ -126,9 +132,50 @@ import { ref, onMounted } from 'vue'
 import LectionCard from '../components/custom/LectionCard.vue'
 import SiteHeader from '../components/custom/SiteHeader.vue'
 import ProfileMenu from '../components/custom/profile/ProfileMenu.vue'
-
+import { useRouter } from 'vue-router'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import axios from 'axios'
+
+const router = useRouter()
+
+const disciplineName = ref('')
+const faculty = ref('')
+const course = ref('')
+
+const coverImage = ref(null)
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    coverImage.value = file
+  }
+}
+
+const backPage = () => {
+  router.push('/discipline')
+}
+
+async function saveData() {
+  // Создаем экземпляр FormData для отправки данных формы
+  const formData = new FormData()
+  formData.append('disciplineName', disciplineName.value)
+  formData.append('faculty', faculty.value)
+  formData.append('course', course.value)
+  formData.append('coverImage', coverImage.value)
+
+  try {
+    const response = await axios.post('http://localhost/add_subject.php', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data' // Указываем правильный заголовок для отправки файлов
+      }
+    })
+    const status = response.data.status
+    console.log('Ответ от сервера:', status)
+  } catch (error) {
+    console.error('Ошибка при отправке данных:', error)
+  }
+}
 </script>
 
 <style>
