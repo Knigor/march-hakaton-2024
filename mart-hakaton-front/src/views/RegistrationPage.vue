@@ -1,53 +1,49 @@
 <template>
-  <div class="h-full flex flex-col justify-center gap-10">
-    <div class="flex flex-row justify-center gap-5">
-      <div class="px-10 py-25">
-        <div class="flex justify-center">
-          <div class="h-16 w-16 rounded-full bg-blue-500 flex items-center justify-end">
-            <p class="text-white text-extra-bold">Lib</p>
-          </div>
-          <h1 class="self-center text-extra-bold">raria</h1>
+  <div class="h-full w-full flex justify-center p-16">
+    <div class="flex flex-col h-full w-1/3 gap-16 justify-center items-center">
+      <SiteLogo isVertical />
+      <div class="bg-blue-200 h-px mt-8 w-full"></div>
+      <!-- Форма входа -->
+      <div class="flex flex-col items-center gap-12 w-[75%]">
+        <h2 class="font-semibold text-3xl">Регистрация</h2>
+        <div class="flex flex-col gap-5 w-full">
+          <Input v-model="FullName" placeholder="ФИО" />
+          <Input v-model="BirthDate" placeholder="Дата рождения" />
+          <Input v-model="Login" placeholder="Придумайте логин" />
+          <Input v-model="Password" type="password" placeholder="Придумайте пароль" />
+          <RadioGroup class="flex sm:max-lg:flex-col justify-between w-full" v-model="selectedRole">
+            <div class="flex items-center space-x-2">
+              <RadioGroupItem id="student" value="student" />
+              <Label for="student">Я студент</Label>
+            </div>
+            <div class="flex items-center space-x-2">
+              <RadioGroupItem id="teacher" value="teacher" />
+              <Label for="teacher">Я преподаватель</Label>
+            </div>
+          </RadioGroup>
+          <Alert v-if="isVisible" class="mt-5" variant="destructive">
+            <AlertTitle>Ошибка</AlertTitle>
+            <AlertDescription class="w-80"
+              >Пользователь с таким логином уже существует или заполнены не все
+              поля</AlertDescription
+            >
+          </Alert>
         </div>
-        <div class="flex flex-col gap-12">
-          <p class="pt-5 flex justify-center text-inter-semi-bold">Храните знания и учитесь!</p>
-          <hr class="border-blue-500 border-t-1" />
-          <p class="pt-5 flex justify-center text-inter-semi-bold">Регистрация</p>
-        </div>
-
-        <Input v-model="FullName" class="mt-5 w-96" placeholder="ФИО" />
-        <Input v-model="BirthDate" class="mt-5 w-96" placeholder="Дата рождения" />
-        <Input v-model="Login" class="mt-5 w-96" placeholder="Придумайте логин" />
-        <Input
-          v-model="Password"
-          class="mt-5 w-96"
-          type="password"
-          placeholder="Придумайте пароль"
-        />
-        <RadioGroup class="mt-5 ml-1 flex gap-32" v-model="selectedRole">
-          <div class="flex items-center space-x-2">
-            <RadioGroupItem id="student" value="student" />
-            <Label for="student">Я студент</Label>
+        <div class="flex flex-col gap-2 w-full">
+          <Alert v-if="isVisible" class="mt-5" variant="destructive">
+            <AlertTitle>Ошибка</AlertTitle>
+            <AlertDescription>Неверно введен логин или пароль!</AlertDescription>
+          </Alert>
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-row sm:max-lg:flex-col gap-2">
+              <Button @click="saveData" class="w-full">Зарегистрироваться</Button>
+              <Button class="w-fit bg-blue-500 sm:max-xl:w-full"
+                ><img class="w-4 h-4 mr-1" src="../img/vk-logo.svg" />Через VK ID</Button
+              >
+            </div>
+            <Button @click="redirectToRegisterPage" variant="ghost" class="w-full">Войти</Button>
           </div>
-          <div class="flex items-center space-x-2">
-            <RadioGroupItem id="teacher" value="teacher" />
-            <Label for="teacher">Я преподаватель</Label>
-          </div>
-        </RadioGroup>
-        <Alert v-if="isVisible" class="mt-5" variant="destructive">
-          <AlertTitle>Ошибка</AlertTitle>
-          <AlertDescription class="w-80"
-            >Пользователь с таким логином уже существует или заполнены не все поля</AlertDescription
-          >
-        </Alert>
-        <div class="mt-12 flex gap-2">
-          <Button v-model="register" @click="saveData" class="w-60 bg-blue-900"
-            >Зарегестрироваться</Button
-          >
-          <Button class="w-36 bg-blue-500">Через VK ID</Button>
         </div>
-        <Button @click="redirectToAuthPage" class="mt-5 w-96 bg-slate-50"
-          ><p class="text-black">Войти</p></Button
-        >
       </div>
     </div>
   </div>
@@ -61,6 +57,7 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { useStore } from 'vuex'
+import SiteLogo from '../components/custom/SiteLogo.vue'
 
 import axios from 'axios'
 

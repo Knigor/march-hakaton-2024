@@ -1,33 +1,32 @@
 <template>
-  <div class="h-full flex flex-col justify-center gap-10">
-    <div class="flex flex-row justify-center gap-5">
-      <div class="px-10 py-25">
-        <div class="flex justify-center">
-          <div class="h-16 w-16 rounded-full bg-blue-500 flex items-center justify-end">
-            <p class="text-white text-extra-bold">Lib</p>
+  <div class="h-full w-full flex justify-center p-16">
+    <div class="flex flex-col h-full w-1/3 gap-16 justify-center items-center">
+      <SiteLogo isVertical />
+      <div class="bg-blue-200 h-px mt-8 w-full"></div>
+      <!-- Форма входа -->
+      <div class="flex flex-col items-center gap-12 w-[75%]">
+        <h2 class="font-semibold text-3xl">Вход</h2>
+        <div class="flex flex-col gap-5 w-full">
+          <Input placeholder="Ваш логин" v-model="login" />
+          <Input type="password" placeholder="Пароль" v-model="password" />
+        </div>
+        <div class="flex flex-col gap-2 w-full">
+          <Alert v-if="isVisible" class="mt-5" variant="destructive">
+            <AlertTitle>Ошибка</AlertTitle>
+            <AlertDescription>Неверно введен логин или пароль!</AlertDescription>
+          </Alert>
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-row sm:max-lg:flex-col gap-2">
+              <Button @click="saveData" class="w-full">Войти</Button>
+              <Button class="w-fit bg-blue-500 sm:max-lg:w-full"
+                ><img class="w-4 h-4 mr-1" src="../img/vk-logo.svg" />Через VK ID</Button
+              >
+            </div>
+            <Button @click="redirectToRegisterPage" variant="ghost" class="w-full"
+              >Регистрация</Button
+            >
           </div>
-          <h1 class="self-center text-extra-bold">raria</h1>
         </div>
-        <div class="flex flex-col gap-12">
-          <p class="pt-5 flex justify-center text-inter-semi-bold">Храните знания и учитесь!</p>
-          <hr class="border-blue-500 border-t-1" />
-          <p class="pt-5 flex justify-center text-inter-semi-bold">Вход</p>
-        </div>
-
-        <Input class="mt-5 w-96" placeholder="Ваш логин" v-model="login" />
-        <Input class="mt-5 w-96" type="password" placeholder="Пароль" v-model="password" />
-        <Alert v-if="isVisible" class="mt-5" variant="destructive">
-          <AlertTitle>Ошибка</AlertTitle>
-          <AlertDescription>Неверно введен логин или пароль!</AlertDescription>
-        </Alert>
-        <div class="mt-12 flex gap-2">
-          <Button @click="saveData" class="w-60 bg-blue-900">Войти</Button>
-
-          <Button class="w-36 bg-blue-500">Через VK ID</Button>
-        </div>
-        <Button @click="redirectToRegisterPage" class="mt-5 w-96 bg-slate-50"
-          ><p class="text-black">Регистрация</p></Button
-        >
       </div>
     </div>
   </div>
@@ -36,10 +35,11 @@
 <script setup>
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useRouter } from 'vue-router'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ref } from 'vue'
+
+import SiteLogo from '../components/custom/SiteLogo.vue'
 import axios from 'axios'
 
 const router = useRouter()
@@ -88,16 +88,4 @@ async function saveData() {
 }
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
-.text-extra-bold {
-  font-family: 'Inter', sans-serif;
-  font-size: 32px;
-}
-
-.text-inter-semi-bold {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600; /* Semi-Bold вес шрифта */
-  font-size: 28px;
-}
-</style>
+<style></style>
