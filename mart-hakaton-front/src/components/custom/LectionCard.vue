@@ -68,8 +68,9 @@ export default {
   methods: {
     handleFavoriteClick() {
       console.log('Иконка favorite была нажата')
-    }, 
+    },
     selectLection() {
+      this.$router.push('/materials/read')
       console.log('Переход на конкретную лекцию')
     }
   }

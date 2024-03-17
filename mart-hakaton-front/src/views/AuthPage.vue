@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full flex justify-center p-16">
     <div class="flex flex-col h-full w-1/3 gap-16 justify-center items-center">
-      <SiteLogo isVertical />
+      <SiteLogo :isVertical="true" />
       <div class="bg-blue-200 h-px mt-8 w-full"></div>
       <!-- Форма входа -->
       <div class="flex flex-col items-center gap-12 w-[75%]">
@@ -18,9 +18,9 @@
           <div class="flex flex-col gap-2">
             <div class="flex flex-row sm:max-lg:flex-col gap-2">
               <Button @click="saveData" class="w-full">Войти</Button>
-              <Button class="w-fit bg-blue-500 sm:max-lg:w-full"
-                ><img class="w-4 h-4 mr-1" src="../img/vk-logo.svg" />Через VK ID</Button
-              >
+              <Button @click="authorizeVK" class="w-fit bg-blue-500 sm:max-lg:w-full">
+                <img class="w-4 h-4 mr-1" src="../img/vk-logo.svg" />Через VK ID
+              </Button>
             </div>
             <Button @click="redirectToRegisterPage" variant="ghost" class="w-full"
               >Регистрация</Button
@@ -33,26 +33,35 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'vue-router'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { ref } from 'vue'
 
 import SiteLogo from '../components/custom/SiteLogo.vue'
 import axios from 'axios'
 
-console.log(localStorage)
-
 const router = useRouter()
-
-const redirectToRegisterPage = () => {
-  router.push({ name: 'RegistrationPage' })
-}
 
 const login = ref('')
 const password = ref('')
 const isVisible = ref(false)
+
+const authorizeVK = () => {
+  const clientId = '51877729' // ID приложения VK
+  const redirectUri = 'http://localhost/vk.php' // Адрес перенаправления (адрес вашего Vue приложения)
+
+  // Формируем URL для авторизации VK
+  const authUrl = `https://oauth.vk.com/authorize?client_id=${clientId}&display=page&redirect_uri=${redirectUri}&scope=photos&response_type=code&v=5.131`
+
+  // Перенаправляем пользователя на страницу авторизации VK
+  window.location.href = authUrl
+}
+
+const redirectToRegisterPage = () => {
+  router.push({ name: 'RegistrationPage' })
+}
 
 async function saveData() {
   const params = new URLSearchParams()
