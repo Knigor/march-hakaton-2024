@@ -61,7 +61,7 @@ try {
     }
 
     // Выводим информацию о пользователе вместе с дополнительными данными
-    $user_data['authorized'] = true;
+    $user_data['status'] = true;
     $user_data['role_user'] = 'student';
     $user_data['id_user'] = $id_user;
 
