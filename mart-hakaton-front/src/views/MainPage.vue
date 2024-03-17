@@ -149,8 +149,6 @@ axios
                   :title_lection="favorite.title_lection"
                   :name_item="favorite.name_item"
                 />
-                <FavoriteElement /><FavoriteElement /> <FavoriteElement /><FavoriteElement />
-                <FavoriteElement /><FavoriteElement /><FavoriteElement /><FavoriteElement /><FavoriteElement /><FavoriteElement />
               </div>
             </ScrollArea>
           </Card>

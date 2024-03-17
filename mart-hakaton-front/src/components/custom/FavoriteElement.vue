@@ -17,9 +17,11 @@ const props = defineProps({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" class="w-8 h-8 rounded-full">
-              <StarOff size="16" />
-            </Button>
+            <template v-slot:default>
+              <Button variant="outline" size="icon" class="w-8 h-8 rounded-full">
+                <StarOff size="16" />
+              </Button>
+            </template>
           </TooltipTrigger>
           <TooltipContent>
             <p>Удалить из избранного</p>
