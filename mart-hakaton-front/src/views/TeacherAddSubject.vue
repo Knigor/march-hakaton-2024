@@ -111,14 +111,14 @@
                 <input @change="handleFileUpload" id="dropzone-file" type="file" class="hidden" />
               </label>
             </div>
-
+            <Alert v-if="successAlert" class="mt-5 bg-green-300">
+              <Terminal class="h-4 w-4" />
+              <AlertTitle>Успешно</AlertTitle>
+              <AlertDescription> Данные добавленны </AlertDescription>
+            </Alert>
             <div class="flex justify-between mt-5">
               <Button @click="backPage" class="bg-blue-700"> Вернуться </Button>
               <Button @click="saveData" class="bg-blue-700"> Опубликовать </Button>
-              <div>{{ disciplineName }}</div>
-              <div>{{ faculty }}</div>
-              <div>{{ course }}</div>
-              <div>{{ coverImage }}</div>
             </div>
           </div>
         </div>
@@ -136,6 +136,8 @@ import { useRouter } from 'vue-router'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
+import { Terminal } from 'lucide-vue-next'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 const router = useRouter()
 
@@ -144,6 +146,8 @@ const faculty = ref('')
 const course = ref('')
 
 const coverImage = ref(null)
+
+let successAlert = ref(false)
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0]
@@ -159,10 +163,13 @@ const backPage = () => {
 async function saveData() {
   // Создаем экземпляр FormData для отправки данных формы
   const formData = new FormData()
-  formData.append('disciplineName', disciplineName.value)
+  formData.append('name_item', disciplineName.value)
   formData.append('faculty', faculty.value)
-  formData.append('course', course.value)
-  formData.append('coverImage', coverImage.value)
+  formData.append('class', course.value)
+  formData.append('foto', coverImage.value)
+  formData.append('id_user', localStorage.id_user)
+
+  console.log(formData)
 
   try {
     const response = await axios.post('http://localhost/add_subject.php', formData, {
@@ -171,7 +178,13 @@ async function saveData() {
       }
     })
     const status = response.data.status
+
+    console.log(response.data)
     console.log('Ответ от сервера:', status)
+
+    if (status === 'success') {
+      successAlert.value = true
+    }
   } catch (error) {
     console.error('Ошибка при отправке данных:', error)
   }
