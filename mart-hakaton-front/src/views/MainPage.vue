@@ -13,10 +13,46 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 import { AtSign, Hash, Hexagon, Pencil } from 'lucide-vue-next'
 import { ref } from 'vue'
+import axios from 'axios'
 
 let login = localStorage.login
 let role = localStorage.role_user
 let fullName = localStorage.full_name
+
+let id_user = localStorage.id_user
+const views = ref([])
+
+console.log(id_user)
+const formData = new FormData()
+formData.append('id_user', id_user)
+
+axios
+  .post(`http://localhost/get_last.php`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+  .then((response) => {
+    console.log(response.data)
+
+    const status = response.data.status
+    console.log(status)
+
+    response.data.forEach((item) => {
+      views.value.push({
+        date: item.date,
+        id_lection: item.id_lection,
+        id_user: item.id_user,
+        title_lection: item.title_lection,
+        full_name_user: item.full_name_user
+      })
+    })
+
+    console.log(views.value) // Перемещаем console.log внутрь обработчика .then()
+  })
+  .catch((error) => {
+    console.error('Ошибка при получении данных:', error)
+  })
 </script>
 
 <template>
@@ -33,10 +69,13 @@ let fullName = localStorage.full_name
             <h2 class="font-semibold text-2xl">Последние просмотренные</h2>
             <ScrollArea>
               <div class="flex flex-col gap-5 overflow-y-auto">
-                <ProfileRecentView></ProfileRecentView><ProfileRecentView></ProfileRecentView
-                ><ProfileRecentView></ProfileRecentView><ProfileRecentView></ProfileRecentView
-                ><ProfileRecentView></ProfileRecentView><ProfileRecentView></ProfileRecentView
-                ><ProfileRecentView></ProfileRecentView><ProfileRecentView></ProfileRecentView>
+                <ProfileRecentView
+                  v-for="views in views"
+                  :key="views.id"
+                  :date="views.date"
+                  :title_lection="views.title_lection"
+                  :full_name_userr="views.full_name_user"
+                />
               </div>
             </ScrollArea>
           </Card>
