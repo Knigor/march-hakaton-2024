@@ -8,7 +8,7 @@
       <div class="h-full w-full flex flex-col gap-5">
         <div class="title flex justify-between items-center">
           <p class="pt-5 flex text-inter-semi-bold">Философия</p>
-          <Button @click="saveData" class="bg-blue-700" v-if="!isStudent">Добавить</Button>
+          <Button @click="addMaterial" class="bg-blue-700" v-if="!isStudent">Добавить</Button>
         </div>
         <div v-for="material in materials" :key="material.id">
           <LectionCard
