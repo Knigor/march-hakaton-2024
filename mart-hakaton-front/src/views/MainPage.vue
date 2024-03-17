@@ -21,6 +21,7 @@ let fullName = localStorage.full_name
 
 let id_user = localStorage.id_user
 const views = ref([])
+const favorite = ref([])
 
 console.log(id_user)
 const formData = new FormData()
@@ -49,6 +50,31 @@ axios
     })
 
     console.log(views.value) // Перемещаем console.log внутрь обработчика .then()
+  })
+  .catch((error) => {
+    console.error('Ошибка при получении данных:', error)
+  })
+
+axios
+  .post(`http://localhost/get_favorites.php`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+  .then((response) => {
+    console.log(response.data)
+
+    const status = response.data.status
+    console.log(status)
+
+    response.data.forEach((item) => {
+      favorite.value.push({
+        title_lection: item.title_lection,
+        name_item: item.name_item
+      })
+    })
+
+    // console.log(favorite) // Перемещаем console.log внутрь обработчика .then()
   })
   .catch((error) => {
     console.error('Ошибка при получении данных:', error)

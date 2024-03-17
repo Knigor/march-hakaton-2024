@@ -3,6 +3,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST');
+ 
 // Параметры подключения к базе данных PostgreSQL
 $dbhost = 'postgres-db';
 $dbname = 'hakaton_bd';
@@ -26,14 +27,13 @@ try {
     }
     
     // SQL запрос для получения данных
-    $sql = "SELECT last_view.date, last_view.id_lection, lection.id_user, lection.title_lection, lection.subject_id, users.full_name_user
-            FROM last_view
-            INNER JOIN lection ON last_view.id_lection = lection.id_lection
-            INNER JOIN users ON lection.id_user = users.id_user
-            WHERE last_view.id_user = :id_user
-            ORDER BY last_view.date DESC
-            LIMIT 5";
-    
+    $sql = "SELECT DISTINCT last_view.id_user, last_view.date, last_view.id_lection, lection.title_lection, lection.subject_id, users.full_name_user
+    FROM last_view
+    INNER JOIN lection ON last_view.id_lection = lection.id_lection
+    INNER JOIN users ON lection.id_user = users.id_user
+    WHERE last_view.id_user = :id_user
+    ORDER BY last_view.date DESC
+    LIMIT 5";
     // Подготовка SQL запроса
     $stmt = $pdo->prepare($sql);
     

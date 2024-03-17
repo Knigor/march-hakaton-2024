@@ -1,4 +1,10 @@
 <?php
+
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST');
+
 // Параметры подключения к базе данных PostgreSQL
 $dbhost = 'postgres-db';
 $dbname = 'hakaton_bd';
@@ -22,7 +28,7 @@ try {
     }
     
     // SQL запрос для получения данных
-    $sql = "SELECT favorites.id_user, favorites.id_lection, lection.title_lection, lection.subject_id, users.full_name_user, subject.name_item
+    $sql = "SELECT DISTINCT favorites.id_user, favorites.id_lection, lection.title_lection, lection.subject_id, users.full_name_user, subject.name_item
             FROM favorites
             INNER JOIN lection ON favorites.id_lection = lection.id_lection
             INNER JOIN users ON lection.id_user = users.id_user
